@@ -50,6 +50,30 @@ List of Status Codes to Handle:
 200, 201, 204, 400, 401, 403, 404, 405, 429, 500, 502, 503, 504
 */
 
+app.get('/status-info', (req, res) => {
+  const statusCode = parseInt(req.query.code);
+  let message = '';
+  switch (statusCode) {
+    case 200:
+      message = 'OK: The request has succeeded. The meaning of this status depends on the HTTP method used.';
+      break;
+    case 404:
+      message = 'Not Found: The server has not found anything matching the request URI. This is often caused by a missing page or resource.';
+      break;
+    case 500:
+      message = 'Internal Server Error: The server encountered an unexpected condition that prevented it from fulfilling the request.';
+      break;
+    case 400:
+      message = 'Bad Request: The server cannot process the request due to client-side errors (e.g., malformed syntax).';
+      break;
+    default:
+      message = 'Unknown Status Code';
+      break;
+  }
+  res.json({ status: statusCode, message });
+}
+);
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Status Code API is running on http://localhost:${PORT}`);
